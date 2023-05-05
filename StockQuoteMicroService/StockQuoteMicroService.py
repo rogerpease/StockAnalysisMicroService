@@ -37,7 +37,7 @@ def GetCriticalStockInformation(stockTickerSymbol):
         for field in ['52WeekHigh', '52WeekLow', '50DayMovingAverage']:
           if field in overview: 
             myRes[field] = overview[field]
-        return {"Valid": False, "data": myRes}
+        return {"Valid": True, "data": myRes}
     else:
       return {"Valid": False, "data": []}
            
