@@ -1,0 +1,29 @@
+
+ENVIRONMENT=-e STOCKMICROSERVICEALPHAVANTAGECACHEDIR=$(STOCKMICROSERVICEALPHAVANTAGECACHEDIR) -e ALPHAVANTAGEAPIKEY=$(ALPHAVANTAGEAPIKEY)
+
+clean:
+	docker rm -f stockquotemicroservice || true 
+	docker rmi -f stockquotemicroserviceimage || true 
+
+IMAGE := $(shell docker image ls | grep stockquotemicroserviceimage)
+MICROSERVICE := $(shell docker ps | grep stockquotemicroservice)
+
+dockerbuild:
+ifeq ("${IMAGE}", "") 
+	# Not recommended but not worth restructuring project over. 
+	docker build -t stockquotemicroserviceimage -f Dockerfiles/Dockerfile.StockQuoteMicroService . 
+else 
+	echo "Microservice image exists" 
+endif
+
+run: dockerbuild
+	docker run --rm -it --name stockquotemicroservice --mount source=StockDataMicroserviceCache,target=/opt/nfs/StockDataCache -p 7002:7002 $(ENVIRONMENT) stockquotemicroserviceimage
+
+install: dockerbuild 
+ifeq ("${MICROSERVICE}","") 
+	docker run -d -it --name stockquotemicroservice --mount source=StockDataMicroserviceCache,target=/opt/nfs/StockDataCache -p 7002:7002 $(ENVIRONMENT) --restart unless-stopped stockquotemicroserviceimage
+	sleep 4
+	./Test.StockQuoteMicroService.py 
+else
+	echo "Stock Quote Microservice already exists" 
+endif
