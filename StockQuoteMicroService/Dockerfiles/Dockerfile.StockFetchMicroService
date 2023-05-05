@@ -1,0 +1,10 @@
+FROM python:3.8-slim-buster
+
+RUN mkdir /MountPoint
+WORKDIR /python
+RUN pip3 install flask
+RUN pip3 install requests
+COPY . /python 
+RUN chmod 755 /python/*.py
+EXPOSE 7001 
+CMD ["./StockFetchMicroService.py"]
