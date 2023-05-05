@@ -1,0 +1,42 @@
+
+CONTAINERNAME=stockfetchmicroservice 
+IMAGENAME=stockfetchmicroserviceimage
+IMAGEVERSION=0.1.0
+
+ENVIRONMENT=-e STOCKMICROSERVICEALPHAVANTAGECACHEDIR=$(STOCKMICROSERVICEALPHAVANTAGECACHEDIR) -e ALPHAVANTAGEAPIKEY=$(ALPHAVANTAGEAPIKEY)
+
+MSEXISTS    = $(shell docker ps | grep ${CONTAINERNAME} )
+
+
+.PHONY: clean run install 
+
+clean:
+	docker stop $(CONTAINERNAME)  || true 
+	docker rm $(CONTAINERNAME)  || true 
+	docker rmi $(IMAGENAME)  || true 
+
+
+IMAGEINDOCKER := $(shell docker image ls | grep "$(IMAGENAME)")
+
+dockerbuild:
+	@echo "Image In Docker: ${IMAGEINDOCKER}"
+ifeq ("${IMAGE}", "") 
+	docker build -t $(IMAGENAME):$(IMAGEVERSION) -f Dockerfiles/Dockerfile.StockFetchMicroService .
+else
+	echo "Image already exists"
+endif
+
+# For interactive debug 
+run: dockerbuild
+	docker run --rm -it $(ENVIRONMENT) --name $(CONTAINERNAME) --mount source=StockDataMicroserviceCache,target=/opt/nfs/StockDataCache -p 7001:7001 $(IMAGENAME):$(IMAGEVERSION) 
+
+install: dockerbuild 
+ifeq ("${MSEXISTS}","")
+	docker run -d -it $(ENVIRONMENT) --name $(CONTAINERNAME) --mount source=StockDataMicroserviceCache,target=/opt/nfs/StockDataCache -p 7001:7001 --restart unless-stopped  $(IMAGENAME):$(IMAGEVERSION) 
+else
+	echo "Service already exists"
+endif
+	sleep 5
+	./Test.StockFetchMicroService.py
+
+
