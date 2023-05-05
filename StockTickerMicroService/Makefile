@@ -23,7 +23,7 @@ else
 endif 
 
 run: docker 
-	docker run --rm -e FLASK_APP=StockTickerMicroService.py -e FLASK_ENV=development  --name ${MSNAME} -p 7000:7000 ${IMAGENAME}
+	docker run --rm -e FLASK_APP=StockTickerMicroService.py -e FLASK_ENV=development  -e STOCKMICROSERVICEIPADDR=$(STOCKMICROSERVICEIPADDR) --name ${MSNAME} -p 7000:7000 ${IMAGENAME}
 
 install:  docker
 ifeq ("${MSEXISTS}","") 
