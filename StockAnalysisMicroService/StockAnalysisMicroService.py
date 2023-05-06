@@ -42,7 +42,7 @@ def SortByDividend():
             returnedStockList.append({"Ticker": stockTicker, "DividendYield": result["data"]["DividendYield"] }) 
         except Exception as e:
            errorList.append((stockTicker,e))
-      returnedStockList.sort(key=ByDividendYield)   
+      returnedStockList.sort(key=ByDividendYield)
       return {"Valid": True, "Recommendations": returnedStockList, "Errors": errorList } 	
     except Exception as e:
       return {"Valid": False, "Messages": ["Excepted out",str(conCount), str(e)]} 	
@@ -69,11 +69,8 @@ def RunSortByDividend():
        try:
          sortByDividendPage_temp  = "<pre>"
          sbdResult = SortByDividend()
-         print ("Sorted!") 
          if sbdResult["Valid"]:
             sbdRecommendations = sbdResult["Recommendations"]
-            print(sbdRecommendations) 
-            print ("Reversing!") 
             reverselist = list(reversed(sbdRecommendations))
             for stock in reverselist:
               sortByDividendPage_temp += stock["Ticker"] + " " + str(stock["DividendYield"]) + "\n"
