@@ -1,0 +1,10 @@
+FROM python:3.8-slim-buster
+
+RUN pip3 install flask
+RUN pip3 install requests
+COPY . /
+RUN mkdir -p /opt/nfs/StockDataCache 
+RUN chmod 755 /*.py
+EXPOSE 7002
+CMD ["/StockQuoteMicroService.py"]
+#CMD ["/bin/bash"]
