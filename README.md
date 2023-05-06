@@ -2,9 +2,10 @@
 
 This is meant a simple demonstration of Microservices. 
 There is no intent to recommend or discourage purchase of any particular stock nor am I offering to buy or sell stocks.
-If I had a brilliant scheme for buying stocks I wouldn't put it here. :) 
+If I had a brilliant scheme for buying stocks I wouldn't put it here. :)
 
-I didn't have time to make this fully secure. If I did of course I would have pursued: 
+I didn't have time to make this fully secure. 
+If I did of course I would have pursued: 
    * Authorization and Authentication. 
    * Input scrubbing 
    * Wrapping Sockets with TLS
