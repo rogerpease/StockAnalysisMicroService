@@ -20,10 +20,10 @@ However:
 
 The following microservices are created: 
 
-1 StockTickerMicroService- Keeps a list of tickers we can look at. 
-1 StockFetchMicroService- Queries a database of stocks and keeps in a local cache. 
-1 StockQuoteMicroService Queries the database of stocks built by StockFetchMicroService 
-1 StockAnalysisMicroService Analyzes stocks from StockQuoteMicroService and makes recommendations. 
+- StockTickerMicroService- Keeps a list of tickers we can look at. 
+- StockFetchMicroService- Queries a database of stocks and keeps in a local cache. 
+- StockQuoteMicroService Queries the database of stocks built by StockFetchMicroService 
+- StockAnalysisMicroService Analyzes stocks from StockQuoteMicroService and makes recommendations. 
 
 
 # Building
