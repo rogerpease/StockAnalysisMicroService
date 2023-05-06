@@ -34,5 +34,5 @@ else
 endif
 	echo "This will take a bit to compile all the data" 
 	sleep 30
-	./TestRequest.py
+	./Test.StockAnalysisMicroService.py
 
